@@ -17,14 +17,14 @@ def main():
         result = subprocess.run(["nikto", "-h", target], capture_output=True, text=True)
         results.append({"target": target, "output": result.stdout})
 
-    template = jinja2.Template(\"\"\"
+    template = jinja2.Template("""
     <html><body><h1>Nikto Report</h1>
     {% for item in results %}
       <h2>{{ item.target }}</h2>
       <pre>{{ item.output }}</pre>
     {% endfor %}
     </body></html>
-    \"\"\")
-    
+    """)
+
     with open(args.output, "w") as f:
         f.write(template.render(results=results))
